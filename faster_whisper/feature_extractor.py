@@ -147,8 +147,8 @@ class FeatureExtractor:
         Compute the log-Mel spectrogram of the provided audio, gives similar results
         whisper's original torch implementation with 1e-5 tolerance.
         """
-        if padding:
-            waveform = np.pad(waveform, [(0, self.n_samples)])
+        if padding and waveform.shape[0] < self.n_samples:
+            waveform = np.pad(waveform, [(0, self.n_samples - waveform.shape[0])])
 
         window = np.hanning(self.n_fft + 1)[:-1]
 
